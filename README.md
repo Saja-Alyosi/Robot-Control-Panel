@@ -164,3 +164,7 @@ Response: { status, message }
 | Commands not updating | Check database write permissions |
 | Archives page shows no data | Ensure tables exist via `setup.sql` |
 
+## Photos 
+<img width="1568" height="672" alt="image" src="https://github.com/user-attachments/assets/c6787843-0381-4b3f-8499-cf9fc0459734" />
+<img width="1568" height="665" alt="image" src="https://github.com/user-attachments/assets/ad64da63-cd64-47e3-9a01-ed6d7edd79cf" />
+
