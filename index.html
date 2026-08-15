@@ -1,0 +1,432 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Robot Control Panel</title>
+
+<style>
+
+/* خلفية داكنة بنمط Neumorphism UI */
+body {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    margin: 0;
+    background-color: #1e2227;
+    color: #e0e6ed;
+    font-family: Arial, Helvetica, sans-serif;
+    gap: 30px;
+    padding: 20px;
+    box-sizing: border-box;
+    direction: ltr;
+}
+
+/* زر التوجيه للأرشيف */
+.archives {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    margin-bottom: 25px;
+    padding: 12px 28px;
+    background: #1e2227;
+    color: #00d2ff;
+    text-decoration: none;
+    border-radius: 14px;
+    font-size: 16px;
+    font-weight: bold;
+    border: 1px solid rgba(0, 210, 255, 0.2);
+    box-shadow: 5px 5px 12px #15181c, 
+                -5px -5px 12px #272c32;
+    transition: all 0.3s ease;
+}
+
+.archives:hover {
+    box-shadow: inset 3px 3px 6px #15181c, 
+                inset -3px -3px 6px #272c32;
+    color: #ffffff;
+}
+
+/* =========================
+   ROBOT CONTROL SECTION
+========================= */
+
+.control-section {
+    text-align: center;
+    width: 100%;
+    max-width: 450px;
+    background: #1e2227;
+    padding: 30px;
+    border-radius: 20px;
+    box-shadow: 8px 8px 16px #15181c, 
+                -8px -8px 16px #272c32;
+    border: 1px solid rgba(255, 255, 255, 0.03);
+    box-sizing: border-box;
+}
+
+.control-section h1 {
+    margin-top: 0;
+    margin-bottom: 25px;
+    color: #00d2ff;
+    text-shadow: 0 0 10px rgba(0, 210, 255, 0.3);
+}
+
+/* شبكة أزرار التحكم */
+.control-pad {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-template-rows: repeat(3, 65px);
+    gap: 15px;
+    justify-items: center;
+    align-items: center;
+    margin-top: 20px;
+}
+
+.btn {
+    width: 100%;
+    height: 100%;
+    border-radius: 14px;
+    background: #1e2227;
+    font-size: 16px;
+    font-weight: bold;
+    color: #00d2ff;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid rgba(0, 210, 255, 0.1);
+    box-shadow: 5px 5px 10px #15181c, 
+                -5px -5px 10px #272c32;
+    transition: all 0.2s ease;
+    text-transform: uppercase;
+}
+
+.btn:hover {
+    box-shadow: inset 2px 2px 5px #15181c, 
+                inset -2px -2px 5px #272c32;
+    color: #ffffff;
+}
+
+/* زر التوقف STOP المميز باللون الأحمر */
+.btn.stop {
+    color: #ff4757;
+    border-color: rgba(255, 71, 87, 0.3);
+}
+
+.btn.stop:hover {
+    color: #ff6b81;
+    box-shadow: inset 2px 2px 5px #15181c, 
+                inset -2px -2px 5px #272c32;
+}
+
+.forward {
+    grid-column: 2;
+    grid-row: 1;
+}
+
+.left {
+    grid-column: 1;
+    grid-row: 2;
+}
+
+.stop {
+    grid-column: 2;
+    grid-row: 2;
+}
+
+.right {
+    grid-column: 3;
+    grid-row: 2;
+}
+
+.backward {
+    grid-column: 2;
+    grid-row: 3;
+}
+
+#status {
+    margin-top: 25px;
+    font-size: 15px;
+    color: #8a99ad;
+}
+
+/* =========================
+   VOICE SECTION
+========================= */
+
+.voice-section {
+    width: 100%;
+    max-width: 450px;
+    text-align: center;
+    background: #1e2227;
+    padding: 30px;
+    border-radius: 20px;
+    box-shadow: 8px 8px 16px #15181c, 
+                -8px -8px 16px #272c32;
+    border: 1px solid rgba(255, 255, 255, 0.03);
+    box-sizing: border-box;
+}
+
+.voice-section h2 {
+    margin-top: 0;
+    color: #00d2ff;
+}
+
+#startVoice, #saveVoice {
+    padding: 12px 28px;
+    border-radius: 14px;
+    background: linear-gradient(145deg, #00b4db, #0083b0);
+    color: #ffffff;
+    font-size: 15px;
+    font-weight: bold;
+    cursor: pointer;
+    border: none;
+    box-shadow: 4px 4px 10px #15181c, 
+                -4px -4px 10px #272c32;
+    transition: all 0.3s ease;
+}
+
+#startVoice:hover, #saveVoice:hover {
+    background: linear-gradient(145deg, #0083b0, #00b4db);
+    box-shadow: 0 0 15px rgba(0, 210, 255, 0.4);
+}
+
+#startVoice.recording {
+    background: linear-gradient(145deg, #ff4757, #ff6b81);
+    box-shadow: 0 0 15px rgba(255, 71, 87, 0.5);
+}
+
+#voiceText {
+    width: 100%;
+    min-height: 100px;
+    margin-top: 20px;
+    padding: 15px;
+    box-sizing: border-box;
+    background: #191c20;
+    border: 1px solid #272c32;
+    border-radius: 12px;
+    color: #e0e6ed;
+    font-size: 15px;
+    resize: vertical;
+    box-shadow: inset 3px 3px 6px #121417, 
+                inset -3px -3px 6px #202429;
+    outline: none;
+}
+
+#saveVoice {
+    margin-top: 18px;
+}
+
+#voiceStatus {
+    margin-top: 15px;
+    font-size: 14px;
+    color: #8a99ad;
+}
+
+</style>
+
+</head>
+
+
+<body>
+
+
+<!-- =========================
+     ROBOT CONTROL
+========================= -->
+
+<div class="control-section">
+    
+    <h1>Robot Control Panel</h1>
+
+    <a href="archives.php" class="archives">
+        Archives 📁
+    </a>
+    
+    <div class="control-pad">
+
+        <button class="btn forward" onclick="sendCommand('forward')">
+            forward
+        </button>
+
+        <button class="btn left" onclick="sendCommand('left')">
+            left
+        </button>
+
+        <button class="btn stop" onclick="sendCommand('stop')">
+            STOP
+        </button>
+
+        <button class="btn right" onclick="sendCommand('right')">
+            right
+        </button>
+
+        <button class="btn backward" onclick="sendCommand('backward')">
+            backward
+        </button>
+
+    </div>
+
+    <div id="status">
+        Ready
+    </div>
+
+</div>
+
+
+<!-- =========================
+     VOICE TO TEXT
+========================= -->
+
+<div class="voice-section">
+
+    <h2>🎤 Speech to Text</h2>
+
+    <button id="startVoice">
+        🎤 Start Recording
+    </button>
+
+    <textarea
+        id="voiceText"
+        placeholder="Speak and the text will appear here...."
+        readonly>
+    </textarea>
+
+    <br>
+
+    <button id="saveVoice">
+        Save Text
+    </button>
+
+    <div id="voiceStatus">
+        Ready to record
+    </div>
+
+</div>
+
+
+<script>
+
+/* =========================
+   ROBOT COMMAND
+========================= */
+
+function sendCommand(cmd) {
+
+    document.getElementById('status').innerText = 'Sending...';
+
+    fetch('update_command.php', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/x-www-form-urlencoded'
+        },
+        body: 'command=' + encodeURIComponent(cmd)
+    })
+    .then(res => res.json())
+    .then(data => {
+        if (data.status === 'success') {
+            document.getElementById('status').innerText =
+                'Updated: ' + data.button + ' -> "' + data.stored_as + '"';
+        } else {
+            document.getElementById('status').innerText =
+                'Error: ' + data.message;
+        }
+    })
+    .catch(err => {
+        document.getElementById('status').innerText = 'Connection to server failed';
+    });
+
+}
+
+
+/* =========================
+   SPEECH TO TEXT
+========================= */
+
+const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+const startVoiceButton = document.getElementById('startVoice');
+const voiceText = document.getElementById('voiceText');
+const voiceStatus = document.getElementById('voiceStatus');
+
+let recognition;
+
+if (!SpeechRecognition) {
+    startVoiceButton.disabled = true;
+    voiceStatus.innerText = 'Your browser does not support speech to text. Use Google Chrome.';
+} else {
+    recognition = new SpeechRecognition();
+    recognition.lang = 'en-US';
+    recognition.continuous = false;
+    recognition.interimResults = false;
+
+    startVoiceButton.addEventListener('click', function () {
+        voiceText.value = '';
+        voiceStatus.innerText = '🎤 Listening now... Speak up';
+        startVoiceButton.innerText = '🔴 Recording...';
+        startVoiceButton.classList.add('recording');
+        recognition.start();
+    });
+
+    recognition.onresult = function(event) {
+        const text = event.results[0][0].transcript;
+        voiceText.value = text;
+        voiceStatus.innerText = 'The audio has been converted to text';
+    };
+
+    recognition.onend = function() {
+        startVoiceButton.innerText = '🎤 Start Recording';
+        startVoiceButton.classList.remove('recording');
+    };
+
+    recognition.onerror = function(event) {
+        voiceStatus.innerText = 'An error occurred: ' + event.error;
+        startVoiceButton.innerText = '🎤 Start Recording';
+        startVoiceButton.classList.remove('recording');
+    };
+}
+
+
+/* =========================
+   SAVE VOICE TEXT
+========================= */
+
+document.getElementById('saveVoice').addEventListener('click', function() {
+    const text = voiceText.value.trim();
+
+    if (text === '') {
+        voiceStatus.innerText = '⚠️ No text to save';
+        return;
+    }
+
+    voiceStatus.innerText = 'Text being saved...';
+
+    fetch('save_voice.php', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/x-www-form-urlencoded'
+        },
+        body: 'text=' + encodeURIComponent(text)
+    })
+    .then(res => res.json())
+    .then(data => {
+        if (data.status === 'success') {
+            voiceStatus.innerText = '✅ The text has been saved to the database';
+        } else {
+            voiceStatus.innerText = '❌ Error: ' + data.message;
+        }
+    })
+    .catch(error => {
+        voiceStatus.innerText = '❌ Server connection failed';
+    });
+});
+
+</script>
+
+</body>
+</html>
